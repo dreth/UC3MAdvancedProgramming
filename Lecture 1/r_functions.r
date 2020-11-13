@@ -182,3 +182,29 @@ NumericVector summary_stats(NumericMatrix mt) {
 
 summary_stats(matrix(c(1,3,2,4,5, 4,5,3,2,8, 1,2,3,45,5, 4,3,2,43,5, 3,4,5,56,3), nrow=5, ncol=5, byrow=T))
 summary_stats(matrix(runif(30),nrow=5))
+
+
+# 10 using dataframes and lists
+cppFunction ('
+List changeDataframe(DataFrame DF) {
+    // we receive a DF data.frame object and access each column by name
+    IntegerVector a = DF["a"];
+    CharacterVector b = DF["b"];
+
+    // We use clone (copy) so that the original dataframe is not modified
+    a = clone(a);
+    b = clone(b);
+
+    // do something
+    a[2] = 42;
+    b[1] = "foo";
+
+    // create a new data frame with two columns named newa and newb
+    DataFrame NDF = DataFrame::create(Named("newa")=a,
+    Named("newb")=b);
+    
+    // and return old and new in list with two elements: origDataFrame and newDataFrame
+    return(List::create(Named("origDataFrame")=DF,
+    Named("newDataFrame")=NDF));
+}
+')

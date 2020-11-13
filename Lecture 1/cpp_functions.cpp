@@ -1,6 +1,6 @@
-#include <iostream>
-#include <stdio.h>
-#include <math.h>  
+#include <Rcpp.h>
+using namespace Rcpp;
+// [[Rcpp:export]]
 
 // 1
 int one() {
