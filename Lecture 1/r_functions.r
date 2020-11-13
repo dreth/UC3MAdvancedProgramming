@@ -202,9 +202,8 @@ List changeDataframe(DataFrame DF) {
     // create a new data frame with two columns named newa and newb
     DataFrame NDF = DataFrame::create(Named("newa")=a,
     Named("newb")=b);
-    
+
     // and return old and new in list with two elements: origDataFrame and newDataFrame
     return(List::create(Named("origDataFrame")=DF,
     Named("newDataFrame")=NDF));
-}
-')
+}')
