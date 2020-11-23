@@ -10,7 +10,10 @@ Importing libraries
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 library(Rcpp)
 library(microbenchmark)
+library(foreach)
 ```
+
+# Exercise 1
 
 ## Teacher example (this code is NOT mine)
 
@@ -29,17 +32,17 @@ my_knn_R = function(X, X0, y){
   closest_output = -1
   closest_neighbor = -1
   
-  for(i in 1:nrows){
-    
+  for (i in 1:nrows) {
+
     distance = 0
-    for(j in 1:ncols){
+    for (j in 1:ncols) {
       difference = X[i,j]-X0[j]
       distance = distance + difference * difference
     }
     
     distance = sqrt(distance)
     
-    if(distance < closest_distance){
+    if (distance < closest_distance) {
       closest_distance = distance
       closest_output = y[i]
       closest_neighbor = i
@@ -144,3 +147,65 @@ microbenchmark(knn_1(X, X0, y))
 
 We can see that our mean runtime for the Rcpp version is of under 14 microseconds
 
+# Exercise 2
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
+my_knn_R = function(X, X0, y, K){
+  # X data matrix with input attributes
+  # y response variable values of instances in X  
+  # X0 vector of input attributes for prediction
+  
+  nrows = nrow(X)
+  ncols = ncol(X)
+  
+  # One of the instances is going to be the closest one:
+  # closest_distance: it is the distance , min_output
+  distances = c()
+  closest_distance = 99999999
+  closest_neighbor = -1
+  nearest_neighbors = c()
+  nearest_neighbors_classif = c()
+  
+  # get distances
+  for (i in 1:nrows) {
+
+    distance = 0
+    for (j in 1:ncols) {
+      difference = X[i,j]-X0[j]
+      distance = distance + difference * difference
+    }
+    
+    distance = sqrt(distance)
+
+    # add distance to vector
+    distances = c(distances, distance)
+
+    if (distance < closest_distance) {
+      closest_distance = distance
+      nearest_neighbors_classif = y[i]
+      closest_neighbor = i
+    }
+  }
+
+  # eliminating closest distance
+  distances[closest_neighbor] = 99999999
+  
+  # because we can't sort, we just manually pull out the minimum value k times
+  for (i in 1:K) {
+    difference = 0
+    min_diff = 99999999
+    index_placeholder = 0
+    for (idx in 1:nrows) {
+      difference = distances[idx] - closest_distance
+      if (difference < min_diff) {
+        min_diff = difference
+        index_placeholder = idx
+      }
+    }
+    
+
+  }
+  
+  closest_output
+}  
+```
