@@ -116,6 +116,7 @@ Importing libraries
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(Rcpp)}
+\KeywordTok{library}\NormalTok{(microbenchmark)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -172,22 +173,172 @@ mine)}\label{testing-teacher-example-this-code-is-not-mine}}
 \NormalTok{X <-}\StringTok{ }\NormalTok{iris[,}\OperatorTok{-}\DecValTok{5}\NormalTok{]}
 \CommentTok{# y contains the response variable (named medv, a numeric value)}
 \NormalTok{y <-}\StringTok{ }\NormalTok{iris[,}\DecValTok{5}\NormalTok{]}
-
 \CommentTok{# From dataframe to matrix}
 \NormalTok{X <-}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(X)}
 \CommentTok{# From factor to integer}
 \NormalTok{y <-}\StringTok{ }\KeywordTok{as.integer}\NormalTok{(y)}
-
 \CommentTok{# This is the point we want to predict}
-
 \NormalTok{X0 <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{5.80}\NormalTok{, }\FloatTok{3.00}\NormalTok{, }\FloatTok{4.35}\NormalTok{, }\FloatTok{1.30}\NormalTok{)}
-
 \CommentTok{# Using my_knn and FNN:knn to predict point X0}
 \CommentTok{# Using the same number of neighbors, it should be similar (k=1)}
 \KeywordTok{my_knn_R}\NormalTok{(X, X0, y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(FNN)}
 \NormalTok{FNN}\OperatorTok{::}\KeywordTok{knn}\NormalTok{(X, }\KeywordTok{matrix}\NormalTok{(X0, }\DataTypeTok{nrow =} \DecValTok{1}\NormalTok{), y, }\DataTypeTok{k=}\DecValTok{1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+## attr(,"nn.index")
+##      [,1]
+## [1,]   96
+## attr(,"nn.dist")
+##           [,1]
+## [1,] 0.2061553
+## Levels: 2
+\end{verbatim}
+
+\newpage
+
+\hypertarget{translating-the-teacher-code-into-c-into-an-rccp-function}{%
+\subsection{Translating the teacher code into C++ into an Rccp
+function}\label{translating-the-teacher-code-into-c-into-an-rccp-function}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cppFunction}\NormalTok{(}\StringTok{'}
+\StringTok{int knn_1(NumericMatrix X, NumericVector X0, NumericVector y) \{}
+\StringTok{    int nrows = X.nrow();}
+\StringTok{    int ncols = X.ncol();}
+
+\StringTok{    double closest_distance = 99999999;}
+\StringTok{    double closest_output = -1;}
+\StringTok{    double closest_neighbor = -1;}
+\StringTok{    double difference = 0;}
+
+\StringTok{    int i;}
+\StringTok{    int j;}
+
+\StringTok{    for (i = 0; i < nrows; i++) \{}
+\StringTok{        }
+\StringTok{        double distance = 0;}
+\StringTok{        for (j = 0; j < ncols; j++) \{}
+\StringTok{            difference = X(i,j) - X0(j);}
+\StringTok{            distance = distance + difference * difference;}
+\StringTok{        \}}
+
+\StringTok{        distance = sqrt(distance);}
+
+\StringTok{        if (distance < closest_distance) \{}
+\StringTok{            closest_distance = distance;}
+\StringTok{            closest_output = y(i);}
+\StringTok{            closest_neighbor = i;}
+\StringTok{        \}}
+\StringTok{    \}}
+\StringTok{    return closest_output;}
+\StringTok{\}'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{testing-rcpp-translation}{%
+\subsection{Testing Rcpp translation}\label{testing-rcpp-translation}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{knn_1}\NormalTok{(X, X0, y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(FNN)}
+\NormalTok{FNN}\OperatorTok{::}\KeywordTok{knn}\NormalTok{(X, }\KeywordTok{matrix}\NormalTok{(X0, }\DataTypeTok{nrow =} \DecValTok{1}\NormalTok{), y, }\DataTypeTok{k=}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+## attr(,"nn.index")
+##      [,1]
+## [1,]   96
+## attr(,"nn.dist")
+##           [,1]
+## [1,] 0.2061553
+## Levels: 2
+\end{verbatim}
+
+\hypertarget{benchmarking-differences-in-runtime-between-r-version-and-rcpp-version}{%
+\subsection{Benchmarking differences in runtime between R version and
+Rcpp
+version}\label{benchmarking-differences-in-runtime-between-r-version-and-rcpp-version}}
+
+\hypertarget{r-version}{%
+\subsubsection{R version}\label{r-version}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{microbenchmark}\NormalTok{(}\KeywordTok{my_knn_R}\NormalTok{(X, X0, y))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Unit: microseconds
+##                expr     min       lq     mean  median      uq      max neval
+##  my_knn_R(X, X0, y) 706.651 730.9565 773.7613 750.292 771.472 2054.493   100
+\end{verbatim}
+
+We can see that our mean runtime for the R version is more than 800
+microseconds
+
+\hypertarget{fnn-version}{%
+\subsubsection{FNN version}\label{fnn-version}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{microbenchmark}\NormalTok{(FNN}\OperatorTok{::}\KeywordTok{knn}\NormalTok{(X, }\KeywordTok{matrix}\NormalTok{(X0, }\DataTypeTok{nrow =} \DecValTok{1}\NormalTok{), y, }\DataTypeTok{k=}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Unit: microseconds
+##                                         expr     min      lq     mean  median
+##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 1) 223.661 226.866 236.5668 228.696
+##        uq     max neval
+##  236.5415 455.291   100
+\end{verbatim}
+
+We can see that our mean runtime for the Rcpp version is of under 250
+microseconds
+
+\hypertarget{rcpp-version}{%
+\subsubsection{Rcpp version}\label{rcpp-version}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{microbenchmark}\NormalTok{(}\KeywordTok{knn_1}\NormalTok{(X, X0, y))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Unit: microseconds
+##             expr   min    lq     mean median    uq     max neval
+##  knn_1(X, X0, y) 4.311 4.446 13.83541  4.521 4.601 933.852   100
+\end{verbatim}
+
+We can see that our mean runtime for the Rcpp version is of under 14
+microseconds
 
 \end{document}

@@ -9,6 +9,7 @@ Importing libraries
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 library(Rcpp)
+library(microbenchmark)
 ```
 
 ## Teacher example (this code is NOT mine)
@@ -23,7 +24,7 @@ my_knn_R = function(X, X0, y){
   ncols = ncol(X)
   
   # One of the instances is going to be the closest one:
-  #   closest_distance: it is the distance , min_output
+  # closest_distance: it is the distance , min_output
   closest_distance = 99999999
   closest_output = -1
   closest_neighbor = -1
@@ -50,30 +51,28 @@ my_knn_R = function(X, X0, y){
 
 ## Testing teacher example (This code is NOT mine)
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
 # X contains the inputs as a matrix of real numbers
 data("iris")
 # X contains the input attributes (excluding the class)
 X <- iris[,-5]
 # y contains the response variable (named medv, a numeric value)
 y <- iris[,5]
-
 # From dataframe to matrix
 X <- as.matrix(X)
 # From factor to integer
 y <- as.integer(y)
-
 # This is the point we want to predict
-
 X0 <- c(5.80, 3.00, 4.35, 1.30)
-
 # Using my_knn and FNN:knn to predict point X0
 # Using the same number of neighbors, it should be similar (k=1)
 my_knn_R(X, X0, y)
 library(FNN)
 FNN::knn(X, matrix(X0, nrow = 1), y, k=1)
-
 ```
+
+
+\newpage
 
 ## Translating the teacher code into C++ into an Rccp function
 
@@ -113,27 +112,35 @@ int knn_1(NumericMatrix X, NumericVector X0, NumericVector y) {
 
 ## Testing Rcpp translation
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
-# X contains the inputs as a matrix of real numbers
-data("iris")
-# X contains the input attributes (excluding the class)
-X <- iris[,-5]
-# y contains the response variable (named medv, a numeric value)
-y <- iris[,5]
-
-# From dataframe to matrix
-X <- as.matrix(X)
-# From factor to integer
-y <- as.integer(y)
-
-# This is the point we want to predict
-
-X0 <- c(5.80, 3.00, 4.35, 1.30)
-
-# Using my_knn and FNN:knn to predict point X0
-# Using the same number of neighbors, it should be similar (k=1)
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
 knn_1(X, X0, y)
 library(FNN)
 FNN::knn(X, matrix(X0, nrow = 1), y, k=1)
-
 ```
+
+## Benchmarking differences in runtime between R version and Rcpp version
+
+### R version
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+microbenchmark(my_knn_R(X, X0, y))
+```
+
+We can see that our mean runtime for the R version is more than 800 microseconds
+
+
+### FNN version
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+microbenchmark(FNN::knn(X, matrix(X0, nrow = 1), y, k=1))
+```
+
+We can see that our mean runtime for the Rcpp version is of under 250 microseconds
+
+### Rcpp version
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+microbenchmark(knn_1(X, X0, y))
+```
+
+We can see that our mean runtime for the Rcpp version is of under 14 microseconds
+
