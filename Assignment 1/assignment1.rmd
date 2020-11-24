@@ -274,7 +274,7 @@ test
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 cppFunction('
-int knn_more(NumericMatrix X, NumericVector X0, NumericVector y, int K) {
+NumericVector knn_more(NumericMatrix X, NumericVector X0, NumericVector y, int K) {
     int nrows = X.nrow();
     int ncols = X.ncol();
 
@@ -309,10 +309,10 @@ int knn_more(NumericMatrix X, NumericVector X0, NumericVector y, int K) {
         }
     }
 
-    K = K - 1
-    NN_distances[0] = closest_distance;
-    NN_classif[0] = closest_classif;
-    distances[closest_neighbor] = 99999999999999999;
+    K = K - 1;
+    NN_distances(0) = closest_distance;
+    NN_classif(0) = closest_output;
+    distances(closest_neighbor) = 99999999999999999;
     
     int idx;
     for (i = 0; i < K; i++) {
@@ -320,28 +320,17 @@ int knn_more(NumericMatrix X, NumericVector X0, NumericVector y, int K) {
       double min_diff = 99999999999999999;
       int index = 0;
       for (idx = 0; idx < nrows; idx++) {
-        diff = distances[idx] - NN_distances[i];
+        diff = distances(idx) - NN_distances(i);
         if (diff < min_diff) {
           min_diff = diff;
           index = idx;
         }
       }
-      NN_distances[i+1] = distances[index];
-      NN_classif[i+1] = y[index];
-      distances[index] = 99999999999999999;
+      NN_distances(i+1) = distances(index);
+      NN_classif(i+1) = y(index);
+      distances(index) = 99999999999999999;
     }
     
-    int j = 0;
-    for (i = 0; i < nrows; i++) {
-      if (contains(classifs, y[i]) == false) {
-        j = j+1;
-      }
-    }
-    NumericVector classifs(j);
-    for (i = 0; i < j; i++) {
-      classifs[i] = i+1;
-    }
-
-    NumericMatrix cnts();
+  return NN_classif;
 }')
 ```
