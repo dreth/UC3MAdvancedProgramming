@@ -226,7 +226,8 @@ knn_more = function(X, X0, y, K){
   classifs = unique(y)
 
   # loop through classifications to count
-  cnts = matrix(classifs, nrow=length(classifs)/2, byrow=TRUE)
+  cnts = matrix(rep(0,6), nrow=length(classifs), byrow=TRUE)
+  cnts[,1] = classifs;
   for (g in NN_classif) {
     cnts[g,2] = cnts[g,2] + 1
   }
@@ -259,7 +260,7 @@ knn_more = function(X, X0, y, K){
     }
   }
 
-  cnts
+  group
 }  
 test <- knn_more(X, X0, y, 3)
 test
