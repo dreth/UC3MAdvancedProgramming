@@ -147,9 +147,11 @@ microbenchmark(knn_1(X, X0, y))
 
 We can see that our mean runtime for the Rcpp version is of under 14 microseconds
 
+\newpage
+
 # Exercise 2
 
-```{r, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
 knn_more = function(X, X0, y, K){
   # X data matrix with input attributes
   # y response variable values of instances in X  
@@ -266,6 +268,14 @@ test <- knn_more(X, X0, y, 3)
 test
 ```
 
+### Benchmarking this R function for k=3
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+microbenchmark(knn_more(X, X0, y, 3))
+```
+
+\newpage
+
 ## Translating the teacher code into C++ into an Rccp function
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
@@ -373,3 +383,17 @@ int knn_more(NumericMatrix X, NumericVector X0, NumericVector y, int K) {
 test <- knn_more(X, X0, y, 3)
 test
 ```
+
+### Benchmarking this Rcpp function for k=3
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+microbenchmark(knn_more(X, X0, y, 3))
+```
+
+### Benchmarking the FNN knn function for k=3
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+microbenchmark(FNN::knn(X, matrix(X0, nrow = 1), y, k=3))
+```
+
+

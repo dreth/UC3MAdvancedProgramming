@@ -301,7 +301,7 @@ version}\label{benchmarking-differences-in-runtime-between-r-version-and-rcpp-ve
 \begin{verbatim}
 ## Unit: microseconds
 ##                expr     min      lq     mean  median      uq      max neval
-##  my_knn_R(X, X0, y) 694.601 721.986 751.0958 731.512 748.121 2289.763   100
+##  my_knn_R(X, X0, y) 679.511 698.241 738.5068 707.701 750.131 2155.951   100
 \end{verbatim}
 
 We can see that our mean runtime for the R version is more than 800
@@ -319,9 +319,9 @@ microseconds
 \begin{verbatim}
 ## Unit: microseconds
 ##                                         expr     min      lq     mean  median
-##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 1) 224.141 228.061 237.3229 229.836
+##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 1) 219.791 223.661 239.6494 227.691
 ##        uq     max neval
-##  233.8215 605.361   100
+##  239.7805 581.012   100
 \end{verbatim}
 
 We can see that our mean runtime for the Rcpp version is of under 250
@@ -338,12 +338,14 @@ microseconds
 
 \begin{verbatim}
 ## Unit: microseconds
-##             expr   min     lq     mean median    uq     max neval
-##  knn_1(X, X0, y) 4.342 4.4515 13.78501  4.521 4.721 909.251   100
+##             expr   min    lq    mean median    uq     max neval
+##  knn_1(X, X0, y) 4.291 4.426 14.1048  4.501 4.566 953.611   100
 \end{verbatim}
 
 We can see that our mean runtime for the Rcpp version is of under 14
 microseconds
+
+\newpage
 
 \hypertarget{exercise-2}{%
 \section{Exercise 2}\label{exercise-2}}
@@ -467,6 +469,30 @@ microseconds
 \end{Highlighting}
 \end{Shaded}
 
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\hypertarget{benchmarking-this-r-function-for-k3}{%
+\subsubsection{Benchmarking this R function for
+k=3}\label{benchmarking-this-r-function-for-k3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{microbenchmark}\NormalTok{(}\KeywordTok{knn_more}\NormalTok{(X, X0, y, }\DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Unit: milliseconds
+##                   expr      min       lq     mean   median       uq      max
+##  knn_more(X, X0, y, 3) 1.098421 1.129521 1.236957 1.155801 1.212832 3.778271
+##  neval
+##    100
+\end{verbatim}
+
+\newpage
+
 \hypertarget{translating-the-teacher-code-into-c-into-an-rccp-function}{%
 \subsection{Translating the teacher code into C++ into an Rccp
 function}\label{translating-the-teacher-code-into-c-into-an-rccp-function}}
@@ -580,6 +606,40 @@ function}\label{translating-the-teacher-code-into-c-into-an-rccp-function}}
 
 \begin{verbatim}
 ## [1] 2
+\end{verbatim}
+
+\hypertarget{benchmarking-this-rcpp-function-for-k3}{%
+\subsubsection{Benchmarking this Rcpp function for
+k=3}\label{benchmarking-this-rcpp-function-for-k3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{microbenchmark}\NormalTok{(}\KeywordTok{knn_more}\NormalTok{(X, X0, y, }\DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Unit: microseconds
+##                   expr    min     lq   mean median     uq      max neval
+##  knn_more(X, X0, y, 3) 13.851 14.021 25.961 14.161 14.491 1079.421   100
+\end{verbatim}
+
+\hypertarget{benchmarking-the-fnn-knn-function-for-k3}{%
+\subsubsection{Benchmarking the FNN knn function for
+k=3}\label{benchmarking-the-fnn-knn-function-for-k3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{microbenchmark}\NormalTok{(FNN}\OperatorTok{::}\KeywordTok{knn}\NormalTok{(X, }\KeywordTok{matrix}\NormalTok{(X0, }\DataTypeTok{nrow =} \DecValTok{1}\NormalTok{), y, }\DataTypeTok{k=}\DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Unit: microseconds
+##                                         expr     min      lq     mean  median
+##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 3) 223.781 226.206 236.3174 228.731
+##       uq     max neval
+##  233.756 572.581   100
 \end{verbatim}
 
 \end{document}
