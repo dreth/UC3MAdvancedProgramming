@@ -300,8 +300,8 @@ version}\label{benchmarking-differences-in-runtime-between-r-version-and-rcpp-ve
 
 \begin{verbatim}
 ## Unit: microseconds
-##                expr     min       lq     mean  median       uq      max neval
-##  my_knn_R(X, X0, y) 694.301 726.2015 763.1643 741.662 766.6315 2225.033   100
+##                expr     min      lq     mean  median      uq      max neval
+##  my_knn_R(X, X0, y) 694.601 721.986 751.0958 731.512 748.121 2289.763   100
 \end{verbatim}
 
 We can see that our mean runtime for the R version is more than 800
@@ -318,10 +318,10 @@ microseconds
 
 \begin{verbatim}
 ## Unit: microseconds
-##                                         expr     min      lq    mean   median
-##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 1) 224.161 227.811 238.629 231.1565
-##       uq     max neval
-##  239.076 435.271   100
+##                                         expr     min      lq     mean  median
+##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 1) 224.141 228.061 237.3229 229.836
+##        uq     max neval
+##  233.8215 605.361   100
 \end{verbatim}
 
 We can see that our mean runtime for the Rcpp version is of under 250
@@ -338,8 +338,8 @@ microseconds
 
 \begin{verbatim}
 ## Unit: microseconds
-##             expr   min    lq     mean median     uq     max neval
-##  knn_1(X, X0, y) 4.271 4.441 14.21771  4.491 4.6005 973.851   100
+##             expr   min     lq     mean median    uq     max neval
+##  knn_1(X, X0, y) 4.342 4.4515 13.78501  4.521 4.721 909.251   100
 \end{verbatim}
 
 We can see that our mean runtime for the Rcpp version is of under 14
