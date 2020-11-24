@@ -415,7 +415,6 @@ int knn_more(NumericMatrix X, NumericVector X0, NumericVector y, int K) {
     int i;
     int j;
     
-
     for (i = 0; i < nrows; i++) {
         
         double distance = 0;
