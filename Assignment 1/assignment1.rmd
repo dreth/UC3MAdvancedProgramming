@@ -4,7 +4,7 @@ author: "Daniel Alonso"
 date: "November 27th, 2020"
 output: 'pdf_document'
 ---
- 
+
 Importing libraries
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
