@@ -76,7 +76,7 @@ FNN::knn(X, matrix(X0, nrow = 1), y, k=1)
 
 \newpage
 
-## Translating the teacher's code into C++ into an Rccp function
+## Translating the teacher's code into an Rccp function
 
 ```{Rcpp}
 #include <Rcpp.h>
@@ -154,7 +154,7 @@ We can see that our mean runtime for the Rcpp version is of under 14 microsecond
 ## Implementation for k>1 (but works well for k=3)
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
-knn_more = function(X, X0, y, K){
+knn_more_R = function(X, X0, y, K){
   # X data matrix with input attributes
   # y response variable values of instances in X  
   # X0 vector of input attributes for prediction
@@ -395,8 +395,10 @@ knn_more(X, X0, y, 3)
 ### Benchmarking our R implementation for k=3
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
-microbenchmark(knn_more(X, X0, y, 3))
+microbenchmark(knn_more_R(X, X0, y, 3))
 ```
+
+We can see that the R code takes a bit under 1.5 seconds to finish
 
 ### Benchmarking our Rcpp implementation for k=3
 
@@ -404,11 +406,15 @@ microbenchmark(knn_more(X, X0, y, 3))
 microbenchmark(knn_more(X, X0, y, 3))
 ```
 
+Our Rcpp implementation takes under 24 microseconds on average
+
 ### Benchmarking the FNN knn function for k=3
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 microbenchmark(FNN::knn(X, matrix(X0, nrow = 1), y, k=3))
 ```
+
+The knn function from the FNN library takes under 250 microseconds on average
 
 \newpage
 
