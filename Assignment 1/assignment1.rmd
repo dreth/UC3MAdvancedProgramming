@@ -151,6 +151,8 @@ We can see that our mean runtime for the Rcpp version is of under 14 microsecond
 
 # Exercise 2
 
+## Implementation for k>1 (but works well for k=3)
+
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 knn_more = function(X, X0, y, K){
   # X data matrix with input attributes
@@ -410,6 +412,8 @@ microbenchmark(FNN::knn(X, matrix(X0, nrow = 1), y, k=3))
 
 \newpage
 
+# Exercise 3
+
 ## Modifying distances voting system to use 1/distance
 
 ```{Rcpp}
@@ -502,4 +506,13 @@ int knn_inv(NumericMatrix X, NumericVector X0, NumericVector y, int K) {
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
 knn_inv(X, X0, y, 3)
+```
+
+# Testing the functions after importing from the library
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+library('assignment1knn')
+assignment1knn::knn_1(X, X0, y)
+assignment1knn::knn_more(X, X0, y, 3)
+assignment1knn::knn_inv(X, X0, y, 3)
 ```

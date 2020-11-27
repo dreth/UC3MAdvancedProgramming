@@ -284,8 +284,8 @@ version}\label{benchmarking-differences-in-runtime-between-r-version-and-rcpp-ve
 
 \begin{verbatim}
 ## Unit: microseconds
-##                expr     min      lq     mean  median      uq      max neval
-##  my_knn_R(X, X0, y) 698.402 710.941 752.5327 730.641 749.726 2002.222   100
+##                expr     min      lq     mean  median       uq      max neval
+##  my_knn_R(X, X0, y) 697.261 708.496 741.5092 726.992 747.9315 1910.682   100
 \end{verbatim}
 
 We can see that our mean runtime for the R version is more than 800
@@ -303,9 +303,9 @@ microseconds
 \begin{verbatim}
 ## Unit: microseconds
 ##                                         expr     min      lq     mean  median
-##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 1) 216.761 218.936 224.2799 220.876
-##       uq     max neval
-##  223.461 410.841   100
+##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 1) 216.432 220.431 226.9919 223.391
+##        uq     max neval
+##  224.8665 433.971   100
 \end{verbatim}
 
 We can see that our mean runtime for the Rcpp version is of under 250
@@ -323,7 +323,7 @@ microseconds
 \begin{verbatim}
 ## Unit: microseconds
 ##             expr   min    lq     mean median    uq     max neval
-##  knn_1(X, X0, y) 4.292 4.441 13.20422  4.481 4.561 873.791   100
+##  knn_1(X, X0, y) 4.271 4.431 12.14981  4.481 4.541 770.461   100
 \end{verbatim}
 
 We can see that our mean runtime for the Rcpp version is of under 14
@@ -333,6 +333,10 @@ microseconds
 
 \hypertarget{exercise-2}{%
 \section{Exercise 2}\label{exercise-2}}
+
+\hypertarget{implementation-for-k1-but-works-well-for-k3}{%
+\subsection{Implementation for k\textgreater{}1 (but works well for
+k=3)}\label{implementation-for-k1-but-works-well-for-k3}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -609,8 +613,8 @@ k=3}\label{benchmarking-our-r-implementation-for-k3}}
 
 \begin{verbatim}
 ## Unit: microseconds
-##                   expr    min     lq     mean median     uq      max neval
-##  knn_more(X, X0, y, 3) 13.711 13.901 24.11531 13.956 14.066 1005.952   100
+##                   expr    min     lq     mean median     uq     max neval
+##  knn_more(X, X0, y, 3) 13.621 13.851 22.89774 13.926 14.046 908.141   100
 \end{verbatim}
 
 \hypertarget{benchmarking-our-rcpp-implementation-for-k3}{%
@@ -625,8 +629,8 @@ k=3}\label{benchmarking-our-rcpp-implementation-for-k3}}
 
 \begin{verbatim}
 ## Unit: microseconds
-##                   expr    min     lq     mean median     uq     max neval
-##  knn_more(X, X0, y, 3) 13.612 13.816 14.93722 13.911 13.991 114.801   100
+##                   expr    min     lq    mean median     uq    max neval
+##  knn_more(X, X0, y, 3) 13.631 13.811 14.9761 13.906 14.086 93.251   100
 \end{verbatim}
 
 \hypertarget{benchmarking-the-fnn-knn-function-for-k3}{%
@@ -642,12 +646,15 @@ k=3}\label{benchmarking-the-fnn-knn-function-for-k3}}
 \begin{verbatim}
 ## Unit: microseconds
 ##                                         expr     min      lq     mean  median
-##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 3) 220.231 223.121 228.3968 224.506
+##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 3) 217.622 219.381 227.0094 220.506
 ##       uq     max neval
-##  226.791 437.901   100
+##  224.271 447.171   100
 \end{verbatim}
 
 \newpage
+
+\hypertarget{exercise-3}{%
+\section{Exercise 3}\label{exercise-3}}
 
 \hypertarget{modifying-distances-voting-system-to-use-1distance}{%
 \subsection{Modifying distances voting system to use
@@ -747,6 +754,41 @@ system}\label{testing-the-rcpp-implementation-using-the-inverse-voting-system}}
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{knn_inv}\NormalTok{(X, X0, y, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\hypertarget{testing-the-functions-after-importing-from-the-library}{%
+\section{Testing the functions after importing from the
+library}\label{testing-the-functions-after-importing-from-the-library}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(}\StringTok{'assignment1knn'}\NormalTok{)}
+\NormalTok{assignment1knn}\OperatorTok{::}\KeywordTok{knn_1}\NormalTok{(X, X0, y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{assignment1knn}\OperatorTok{::}\KeywordTok{knn_more}\NormalTok{(X, X0, y, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{assignment1knn}\OperatorTok{::}\KeywordTok{knn_inv}\NormalTok{(X, X0, y, }\DecValTok{3}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
