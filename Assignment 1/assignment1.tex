@@ -1,0 +1,757 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
+\hypersetup{
+            pdftitle={Assignmment 1},
+            pdfauthor={Daniel Alonso},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\title{Assignmment 1}
+\author{Daniel Alonso}
+\date{November 27th, 2020}
+
+\begin{document}
+\maketitle
+
+Importing libraries
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(Rcpp)}
+\KeywordTok{library}\NormalTok{(microbenchmark)}
+\KeywordTok{library}\NormalTok{(FNN)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{exercise-1}{%
+\section{Exercise 1}\label{exercise-1}}
+
+\hypertarget{class-example-this-code-is-not-mine}{%
+\subsection{Class example (this code is NOT
+mine)}\label{class-example-this-code-is-not-mine}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{my_knn_R =}\StringTok{ }\ControlFlowTok{function}\NormalTok{(X, X0, y)\{}
+  \CommentTok{# X data matrix with input attributes}
+  \CommentTok{# y response variable values of instances in X  }
+  \CommentTok{# X0 vector of input attributes for prediction}
+  
+\NormalTok{  nrows =}\StringTok{ }\KeywordTok{nrow}\NormalTok{(X)}
+\NormalTok{  ncols =}\StringTok{ }\KeywordTok{ncol}\NormalTok{(X)}
+  
+  \CommentTok{# One of the instances is going to be the closest one:}
+  \CommentTok{# closest_distance: it is the distance , min_output}
+\NormalTok{  closest_distance =}\StringTok{ }\DecValTok{99999999}
+\NormalTok{  closest_output =}\StringTok{ }\DecValTok{-1}
+\NormalTok{  closest_neighbor =}\StringTok{ }\DecValTok{-1}
+  
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{nrows) \{}
+
+\NormalTok{    distance =}\StringTok{ }\DecValTok{0}
+    \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{ncols) \{}
+\NormalTok{      difference =}\StringTok{ }\NormalTok{X[i,j]}\OperatorTok{-}\NormalTok{X0[j]}
+\NormalTok{      distance =}\StringTok{ }\NormalTok{distance }\OperatorTok{+}\StringTok{ }\NormalTok{difference }\OperatorTok{*}\StringTok{ }\NormalTok{difference}
+\NormalTok{    \}}
+    
+\NormalTok{    distance =}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(distance)}
+    
+    \ControlFlowTok{if}\NormalTok{ (distance }\OperatorTok{<}\StringTok{ }\NormalTok{closest_distance) \{}
+\NormalTok{      closest_distance =}\StringTok{ }\NormalTok{distance}
+\NormalTok{      closest_output =}\StringTok{ }\NormalTok{y[i]}
+\NormalTok{      closest_neighbor =}\StringTok{ }\NormalTok{i}
+\NormalTok{    \}}
+\NormalTok{  \}}
+\NormalTok{  closest_output}
+\NormalTok{\}  }
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{testing-class-example-this-code-is-not-mine}{%
+\subsection{Testing class example (This code is NOT
+mine)}\label{testing-class-example-this-code-is-not-mine}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# X contains the inputs as a matrix of real numbers}
+\KeywordTok{data}\NormalTok{(}\StringTok{"iris"}\NormalTok{)}
+\CommentTok{# X contains the input attributes (excluding the class)}
+\NormalTok{X <-}\StringTok{ }\NormalTok{iris[,}\OperatorTok{-}\DecValTok{5}\NormalTok{]}
+\CommentTok{# y contains the response variable (named medv, a numeric value)}
+\NormalTok{y <-}\StringTok{ }\NormalTok{iris[,}\DecValTok{5}\NormalTok{]}
+\CommentTok{# From dataframe to matrix}
+\NormalTok{X <-}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(X)}
+\CommentTok{# From factor to integer}
+\NormalTok{y <-}\StringTok{ }\KeywordTok{as.integer}\NormalTok{(y)}
+\CommentTok{# This is the point we want to predict}
+\NormalTok{X0 <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\FloatTok{5.80}\NormalTok{, }\FloatTok{3.00}\NormalTok{, }\FloatTok{4.35}\NormalTok{, }\FloatTok{1.30}\NormalTok{)}
+\CommentTok{# Using my_knn and FNN:knn to predict point X0}
+\CommentTok{# Using the same number of neighbors, it should be similar (k=1)}
+\KeywordTok{my_knn_R}\NormalTok{(X, X0, y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{FNN}\OperatorTok{::}\KeywordTok{knn}\NormalTok{(X, }\KeywordTok{matrix}\NormalTok{(X0, }\DataTypeTok{nrow =} \DecValTok{1}\NormalTok{), y, }\DataTypeTok{k=}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+## attr(,"nn.index")
+##      [,1]
+## [1,]   96
+## attr(,"nn.dist")
+##           [,1]
+## [1,] 0.2061553
+## Levels: 2
+\end{verbatim}
+
+\newpage
+
+\hypertarget{translating-the-teachers-code-into-c-into-an-rccp-function}{%
+\subsection{Translating the teacher's code into C++ into an Rccp
+function}\label{translating-the-teachers-code-into-c-into-an-rccp-function}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{#include }\ImportTok{<Rcpp.h>}
+\KeywordTok{using} \KeywordTok{namespace}\NormalTok{ Rcpp;}
+
+\CommentTok{// [[Rcpp::export]]}
+\DataTypeTok{int}\NormalTok{ knn_1(NumericMatrix X, NumericVector X0, NumericVector y) \{}
+    \DataTypeTok{int}\NormalTok{ nrows = X.nrow();}
+    \DataTypeTok{int}\NormalTok{ ncols = X.ncol();}
+
+    \DataTypeTok{double}\NormalTok{ closest_distance = }\DecValTok{99999999}\NormalTok{;}
+    \DataTypeTok{double}\NormalTok{ closest_output = -}\DecValTok{1}\NormalTok{;}
+    \DataTypeTok{double}\NormalTok{ closest_neighbor = -}\DecValTok{1}\NormalTok{;}
+    \DataTypeTok{double}\NormalTok{ difference = }\DecValTok{0}\NormalTok{;}
+
+    \DataTypeTok{int}\NormalTok{ i;}
+    \DataTypeTok{int}\NormalTok{ j;}
+
+    \ControlFlowTok{for}\NormalTok{ (i = }\DecValTok{0}\NormalTok{; i < nrows; i++) \{}
+        
+        \DataTypeTok{double}\NormalTok{ distance = }\DecValTok{0}\NormalTok{;}
+        \ControlFlowTok{for}\NormalTok{ (j = }\DecValTok{0}\NormalTok{; j < ncols; j++) \{}
+\NormalTok{            difference = X(i,j) - X0(j);}
+\NormalTok{            distance = distance + difference * difference;}
+\NormalTok{        \}}
+
+\NormalTok{        distance = sqrt(distance);}
+
+        \ControlFlowTok{if}\NormalTok{ (distance < closest_distance) \{}
+\NormalTok{            closest_distance = distance;}
+\NormalTok{            closest_output = y(i);}
+\NormalTok{            closest_neighbor = i;}
+\NormalTok{        \}}
+\NormalTok{    \}}
+    \ControlFlowTok{return}\NormalTok{ closest_output;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{testing-rcpp-translation}{%
+\subsection{Testing Rcpp translation}\label{testing-rcpp-translation}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{knn_1}\NormalTok{(X, X0, y)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\hypertarget{benchmarking-differences-in-runtime-between-r-version-and-rcpp-version}{%
+\subsection{Benchmarking differences in runtime between R version and
+Rcpp
+version}\label{benchmarking-differences-in-runtime-between-r-version-and-rcpp-version}}
+
+\hypertarget{r-version}{%
+\subsubsection{R version}\label{r-version}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{microbenchmark}\NormalTok{(}\KeywordTok{my_knn_R}\NormalTok{(X, X0, y))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Unit: microseconds
+##                expr     min      lq     mean  median      uq      max neval
+##  my_knn_R(X, X0, y) 698.402 710.941 752.5327 730.641 749.726 2002.222   100
+\end{verbatim}
+
+We can see that our mean runtime for the R version is more than 800
+microseconds
+
+\hypertarget{fnn-version}{%
+\subsubsection{FNN version}\label{fnn-version}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{microbenchmark}\NormalTok{(FNN}\OperatorTok{::}\KeywordTok{knn}\NormalTok{(X, }\KeywordTok{matrix}\NormalTok{(X0, }\DataTypeTok{nrow =} \DecValTok{1}\NormalTok{), y, }\DataTypeTok{k=}\DecValTok{1}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Unit: microseconds
+##                                         expr     min      lq     mean  median
+##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 1) 216.761 218.936 224.2799 220.876
+##       uq     max neval
+##  223.461 410.841   100
+\end{verbatim}
+
+We can see that our mean runtime for the Rcpp version is of under 250
+microseconds
+
+\hypertarget{rcpp-version}{%
+\subsubsection{Rcpp version}\label{rcpp-version}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{microbenchmark}\NormalTok{(}\KeywordTok{knn_1}\NormalTok{(X, X0, y))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Unit: microseconds
+##             expr   min    lq     mean median    uq     max neval
+##  knn_1(X, X0, y) 4.292 4.441 13.20422  4.481 4.561 873.791   100
+\end{verbatim}
+
+We can see that our mean runtime for the Rcpp version is of under 14
+microseconds
+
+\newpage
+
+\hypertarget{exercise-2}{%
+\section{Exercise 2}\label{exercise-2}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knn_more =}\StringTok{ }\ControlFlowTok{function}\NormalTok{(X, X0, y, K)\{}
+  \CommentTok{# X data matrix with input attributes}
+  \CommentTok{# y response variable values of instances in X  }
+  \CommentTok{# X0 vector of input attributes for prediction}
+  
+\NormalTok{  nrows =}\StringTok{ }\KeywordTok{nrow}\NormalTok{(X)}
+\NormalTok{  ncols =}\StringTok{ }\KeywordTok{ncol}\NormalTok{(X)}
+  
+  \CommentTok{# One of the instances is going to be the closest one:}
+  \CommentTok{# closest_distance: it is the distance , min_output}
+\NormalTok{  distances =}\StringTok{ }\KeywordTok{c}\NormalTok{()}
+\NormalTok{  closest_distance =}\StringTok{ }\FloatTok{1e99}
+\NormalTok{  closest_neighbor =}\StringTok{ }\DecValTok{-1}
+\NormalTok{  closest_classif =}\StringTok{ }\DecValTok{-1}
+  
+  \CommentTok{# get distances}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{nrows) \{}
+
+\NormalTok{    distance =}\StringTok{ }\DecValTok{0}
+    \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{ncols) \{}
+\NormalTok{      difference =}\StringTok{ }\NormalTok{X[i,j]}\OperatorTok{-}\NormalTok{X0[j]}
+\NormalTok{      distance =}\StringTok{ }\NormalTok{distance }\OperatorTok{+}\StringTok{ }\NormalTok{difference }\OperatorTok{*}\StringTok{ }\NormalTok{difference}
+\NormalTok{    \}}
+    
+\NormalTok{    distance =}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(distance)}
+
+    \CommentTok{# add distance to vector}
+\NormalTok{    distances =}\StringTok{ }\KeywordTok{c}\NormalTok{(distances, distance)}
+
+    \ControlFlowTok{if}\NormalTok{ (distance }\OperatorTok{<}\StringTok{ }\NormalTok{closest_distance) \{}
+\NormalTok{      closest_distance =}\StringTok{ }\NormalTok{distance}
+\NormalTok{      closest_classif =}\StringTok{ }\NormalTok{y[i]}
+\NormalTok{      closest_neighbor =}\StringTok{ }\NormalTok{i}
+\NormalTok{    \}}
+\NormalTok{  \}}
+
+  \CommentTok{# eliminating closest distance}
+\NormalTok{  NN_distances =}\StringTok{ }\KeywordTok{c}\NormalTok{(closest_distance)}
+\NormalTok{  NN_classif =}\StringTok{ }\KeywordTok{c}\NormalTok{(closest_classif)}
+\NormalTok{  distances[closest_neighbor] =}\StringTok{ }\FloatTok{1e99}
+\NormalTok{  distances =}\StringTok{ }\KeywordTok{unname}\NormalTok{(distances)}
+
+  \CommentTok{# We already got the closest so remove one from K}
+\NormalTok{  K =}\StringTok{ }\NormalTok{K }\OperatorTok{-}\StringTok{ }\DecValTok{1}
+  
+  \CommentTok{# because we can't sort, we just manually pull out the minimum value K times}
+  \CommentTok{# by subtracting each distance to the previous closest distance}
+  \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{K) \{}
+
+    \CommentTok{# placeholder variables for loop}
+\NormalTok{    diff =}\StringTok{ }\DecValTok{0}
+\NormalTok{    min_diff =}\StringTok{ }\FloatTok{1e99}
+\NormalTok{    index =}\StringTok{ }\DecValTok{0}
+
+    \CommentTok{# calculate diffs between distances and closest distance}
+    \CommentTok{# the lowest is saved in placeholder variable min_diff}
+    \CommentTok{# then the index is saved in the index variable}
+    \ControlFlowTok{for}\NormalTok{ (idx }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{nrows) \{}
+\NormalTok{      diff =}\StringTok{ }\NormalTok{distances[idx] }\OperatorTok{-}\StringTok{ }\NormalTok{NN_distances[i]}
+      \ControlFlowTok{if}\NormalTok{ (diff }\OperatorTok{<}\StringTok{ }\NormalTok{min_diff) \{}
+\NormalTok{        min_diff =}\StringTok{ }\NormalTok{diff}
+\NormalTok{        index =}\StringTok{ }\NormalTok{idx}
+\NormalTok{      \}}
+\NormalTok{    \}}
+
+    \CommentTok{# add the corresponding distance to NN distances}
+    \CommentTok{# add the corresponding classif to NN classif}
+\NormalTok{    NN_distances =}\StringTok{ }\KeywordTok{c}\NormalTok{(NN_distances, distances[index])}
+\NormalTok{    NN_classif =}\StringTok{ }\KeywordTok{c}\NormalTok{(NN_classif, y[index])}
+\NormalTok{    distances[index] =}\StringTok{ }\FloatTok{1e99}
+\NormalTok{  \}}
+
+  \CommentTok{# different classifications}
+\NormalTok{  classifs =}\StringTok{ }\KeywordTok{unique}\NormalTok{(y)}
+
+  \CommentTok{# loop through classifications to count}
+\NormalTok{  cnts =}\StringTok{ }\KeywordTok{matrix}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{6}\NormalTok{), }\DataTypeTok{nrow=}\KeywordTok{length}\NormalTok{(classifs), }\DataTypeTok{byrow=}\OtherTok{TRUE}\NormalTok{)}
+\NormalTok{  cnts[,}\DecValTok{1}\NormalTok{] =}\StringTok{ }\NormalTok{classifs;}
+  \ControlFlowTok{for}\NormalTok{ (g }\ControlFlowTok{in}\NormalTok{ NN_classif) \{}
+\NormalTok{    cnts[g,}\DecValTok{2}\NormalTok{] =}\StringTok{ }\NormalTok{cnts[g,}\DecValTok{2}\NormalTok{] }\OperatorTok{+}\StringTok{ }\DecValTok{1}
+\NormalTok{  \}}
+
+  \CommentTok{# check if there's identical counts}
+\NormalTok{  count_vector =}\StringTok{ }\NormalTok{cnts[,}\DecValTok{2}\NormalTok{]}
+\NormalTok{  group_normally =}\StringTok{ }\DecValTok{0}
+  \ControlFlowTok{if}\NormalTok{ (K }\OperatorTok{%%}\StringTok{ }\DecValTok{2} \OperatorTok{==}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+    \ControlFlowTok{if}\NormalTok{ (}\KeywordTok{length}\NormalTok{(count_vector[count_vector }\OperatorTok{==}\StringTok{ }\KeywordTok{max}\NormalTok{(count_vector)]) }\OperatorTok{>}\StringTok{ }\DecValTok{1}\NormalTok{) \{}
+      \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\OperatorTok{:}\NormalTok{K) \{}
+        \ControlFlowTok{if}\NormalTok{ (NN_distances[i] }\OperatorTok{==}\StringTok{ }\KeywordTok{min}\NormalTok{(NN_distances)) \{}
+\NormalTok{          group =}\StringTok{ }\NormalTok{NN_classif[i]}
+\NormalTok{        \}}
+\NormalTok{      \}}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{      group_normally =}\StringTok{ }\DecValTok{1}
+\NormalTok{    \} }
+\NormalTok{  \} }
+  \ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{    group_normally =}\StringTok{ }\DecValTok{1}
+\NormalTok{  \}}
+  
+  \CommentTok{# select maximum value}
+  \ControlFlowTok{if}\NormalTok{ (group_normally }\OperatorTok{==}\StringTok{ }\DecValTok{1}\NormalTok{) \{}
+\NormalTok{    group =}\StringTok{ }\DecValTok{0}
+    \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in}\NormalTok{ cnts[,}\DecValTok{1}\NormalTok{]) \{}
+      \ControlFlowTok{if}\NormalTok{ (count_vector[i] }\OperatorTok{==}\StringTok{ }\KeywordTok{max}\NormalTok{(count_vector)) \{}
+\NormalTok{        group =}\StringTok{ }\NormalTok{i}
+\NormalTok{      \}}
+\NormalTok{    \}}
+\NormalTok{  \}}
+
+\NormalTok{  group}
+\NormalTok{\}  }
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{testing-r-implementation-for-k3}{%
+\subsection{Testing R implementation for
+k=3}\label{testing-r-implementation-for-k3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{knn_more}\NormalTok{(X, X0, y, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\newpage
+
+\hypertarget{translating-our-knn-implementation-for-k3-into-rcpp}{%
+\subsection{Translating our knn implementation for k=3 into
+Rcpp}\label{translating-our-knn-implementation-for-k3-into-rcpp}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{#include }\ImportTok{<Rcpp.h>}
+\KeywordTok{using} \KeywordTok{namespace}\NormalTok{ Rcpp;}
+
+\CommentTok{// [[Rcpp::export]]}
+\DataTypeTok{int}\NormalTok{ knn_more(NumericMatrix X, NumericVector X0, NumericVector y, }\DataTypeTok{int}\NormalTok{ K) \{}
+    \DataTypeTok{int}\NormalTok{ nrows = X.nrow();}
+    \DataTypeTok{int}\NormalTok{ ncols = X.ncol();}
+
+\NormalTok{    NumericVector distances(nrows);}
+\NormalTok{    NumericVector NN_distances(K);}
+\NormalTok{    NumericVector NN_classif(K);}
+    \DataTypeTok{double}\NormalTok{ closest_distance = }\DecValTok{99999999999999999}\NormalTok{;}
+    \DataTypeTok{double}\NormalTok{ closest_output = -}\DecValTok{1}\NormalTok{;}
+    \DataTypeTok{double}\NormalTok{ closest_neighbor = -}\DecValTok{1}\NormalTok{;}
+    \DataTypeTok{double}\NormalTok{ difference;}
+
+    \DataTypeTok{int}\NormalTok{ i;}
+    \DataTypeTok{int}\NormalTok{ j;}
+    
+
+    \ControlFlowTok{for}\NormalTok{ (i = }\DecValTok{0}\NormalTok{; i < nrows; i++) \{}
+        
+        \DataTypeTok{double}\NormalTok{ distance = }\DecValTok{0}\NormalTok{;}
+        \ControlFlowTok{for}\NormalTok{ (j = }\DecValTok{0}\NormalTok{; j < ncols; j++) \{}
+\NormalTok{            difference = X(i,j) - X0(j);}
+\NormalTok{            distance = distance + difference * difference;}
+\NormalTok{        \}}
+
+\NormalTok{        distance = sqrt(distance);}
+\NormalTok{        distances[i] = distance;}
+
+        \ControlFlowTok{if}\NormalTok{ (distance < closest_distance) \{}
+\NormalTok{            closest_distance = distance;}
+\NormalTok{            closest_output = y(i);}
+\NormalTok{            closest_neighbor = i;}
+\NormalTok{        \}}
+\NormalTok{    \}}
+
+\NormalTok{    K = K - }\DecValTok{1}\NormalTok{;}
+\NormalTok{    NN_distances(}\DecValTok{0}\NormalTok{) = closest_distance;}
+\NormalTok{    NN_classif(}\DecValTok{0}\NormalTok{) = closest_output;}
+\NormalTok{    distances(closest_neighbor) = }\DecValTok{99999999999999999}\NormalTok{;}
+    
+    \DataTypeTok{int}\NormalTok{ idx;}
+    \ControlFlowTok{for}\NormalTok{ (i = }\DecValTok{0}\NormalTok{; i < K; i++) \{}
+      \DataTypeTok{double}\NormalTok{ diff = }\DecValTok{0}\NormalTok{;}
+      \DataTypeTok{double}\NormalTok{ min_diff = }\DecValTok{99999999999999999}\NormalTok{;}
+      \DataTypeTok{int}\NormalTok{ index = }\DecValTok{0}\NormalTok{;}
+      \ControlFlowTok{for}\NormalTok{ (idx = }\DecValTok{0}\NormalTok{; idx < nrows; idx++) \{}
+\NormalTok{        diff = distances(idx) - NN_distances(i);}
+        \ControlFlowTok{if}\NormalTok{ (diff < min_diff) \{}
+\NormalTok{          min_diff = diff;}
+\NormalTok{          index = idx;}
+\NormalTok{        \}}
+\NormalTok{      \}}
+\NormalTok{      NN_distances(i+}\DecValTok{1}\NormalTok{) = distances(index);}
+\NormalTok{      NN_classif(i+}\DecValTok{1}\NormalTok{) = y(index);}
+\NormalTok{      distances(index) = }\DecValTok{99999999999999999}\NormalTok{;}
+\NormalTok{    \}}
+    
+\NormalTok{    NumericVector classifs(unique(y).size());}
+    \ControlFlowTok{for}\NormalTok{ (i = }\DecValTok{0}\NormalTok{; i < unique(y).size(); i++) \{}
+\NormalTok{      classifs[i] = i+}\DecValTok{1}\NormalTok{;}
+\NormalTok{    \}}
+
+\NormalTok{    NumericMatrix cnt(classifs.size(), }\DecValTok{2}\NormalTok{);}
+    \ControlFlowTok{for}\NormalTok{ (i = }\DecValTok{0}\NormalTok{; i < classifs.size(); i++) \{}
+\NormalTok{      cnt(i,}\DecValTok{0}\NormalTok{) = classifs(i);}
+\NormalTok{      cnt(i,}\DecValTok{1}\NormalTok{) = }\DecValTok{0}\NormalTok{;}
+\NormalTok{    \}}
+    \ControlFlowTok{for}\NormalTok{ (i = }\DecValTok{0}\NormalTok{; i < NN_classif.size(); i++) \{}
+\NormalTok{      cnt(NN_classif(i)-}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{) = cnt(NN_classif(i)-}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{) + }\DecValTok{1}\NormalTok{;}
+\NormalTok{    \}}
+
+\NormalTok{    NumericVector count_vector = cnt(_,}\DecValTok{1}\NormalTok{);}
+\NormalTok{    NumericVector maxes = count_vector[count_vector == max(count_vector)];}
+    \DataTypeTok{int}\NormalTok{ group = }\DecValTok{0}\NormalTok{;}
+    \DataTypeTok{int}\NormalTok{ group_normally = }\DecValTok{0}\NormalTok{;}
+    \DataTypeTok{int}\NormalTok{ maxes_size = maxes.size();}
+    \ControlFlowTok{if}\NormalTok{ (K % }\DecValTok{2}\NormalTok{ == }\DecValTok{0}\NormalTok{) \{}
+      \ControlFlowTok{if}\NormalTok{ (maxes_size > }\DecValTok{1}\NormalTok{) \{}
+        \ControlFlowTok{for}\NormalTok{ (i = }\DecValTok{0}\NormalTok{; i < K; i++) \{}
+          \ControlFlowTok{if}\NormalTok{ (NN_distances(i) == min(NN_distances)) \{}
+\NormalTok{            group = NN_classif(i);}
+\NormalTok{          \}}
+\NormalTok{        \}}
+\NormalTok{      \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{        group_normally = }\DecValTok{1}\NormalTok{;}
+\NormalTok{      \}}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{      group_normally = }\DecValTok{1}\NormalTok{;}
+\NormalTok{    \}}
+    
+    \ControlFlowTok{if}\NormalTok{ (group_normally == }\DecValTok{1}\NormalTok{) \{}
+      \ControlFlowTok{for}\NormalTok{ (i = }\DecValTok{0}\NormalTok{; i < classifs.size(); i++) \{}
+        \ControlFlowTok{if}\NormalTok{ (count_vector(i) == max(count_vector)) \{}
+\NormalTok{          group = i+}\DecValTok{1}\NormalTok{;}
+\NormalTok{        \}}
+\NormalTok{      \}}
+\NormalTok{    \}}
+
+  \ControlFlowTok{return}\NormalTok{ group;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{testing-our-rcpp-implementation-for-k3}{%
+\subsection{Testing our Rcpp implementation for
+k=3}\label{testing-our-rcpp-implementation-for-k3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{knn_more}\NormalTok{(X, X0, y, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\hypertarget{benchmarking-the-implementation-for-k3}{%
+\subsection{Benchmarking the implementation for
+k=3}\label{benchmarking-the-implementation-for-k3}}
+
+\hypertarget{benchmarking-our-r-implementation-for-k3}{%
+\subsubsection{Benchmarking our R implementation for
+k=3}\label{benchmarking-our-r-implementation-for-k3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{microbenchmark}\NormalTok{(}\KeywordTok{knn_more}\NormalTok{(X, X0, y, }\DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Unit: microseconds
+##                   expr    min     lq     mean median     uq      max neval
+##  knn_more(X, X0, y, 3) 13.711 13.901 24.11531 13.956 14.066 1005.952   100
+\end{verbatim}
+
+\hypertarget{benchmarking-our-rcpp-implementation-for-k3}{%
+\subsubsection{Benchmarking our Rcpp implementation for
+k=3}\label{benchmarking-our-rcpp-implementation-for-k3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{microbenchmark}\NormalTok{(}\KeywordTok{knn_more}\NormalTok{(X, X0, y, }\DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Unit: microseconds
+##                   expr    min     lq     mean median     uq     max neval
+##  knn_more(X, X0, y, 3) 13.612 13.816 14.93722 13.911 13.991 114.801   100
+\end{verbatim}
+
+\hypertarget{benchmarking-the-fnn-knn-function-for-k3}{%
+\subsubsection{Benchmarking the FNN knn function for
+k=3}\label{benchmarking-the-fnn-knn-function-for-k3}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{microbenchmark}\NormalTok{(FNN}\OperatorTok{::}\KeywordTok{knn}\NormalTok{(X, }\KeywordTok{matrix}\NormalTok{(X0, }\DataTypeTok{nrow =} \DecValTok{1}\NormalTok{), y, }\DataTypeTok{k=}\DecValTok{3}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Unit: microseconds
+##                                         expr     min      lq     mean  median
+##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 3) 220.231 223.121 228.3968 224.506
+##       uq     max neval
+##  226.791 437.901   100
+\end{verbatim}
+
+\newpage
+
+\hypertarget{modifying-distances-voting-system-to-use-1distance}{%
+\subsection{Modifying distances voting system to use
+1/distance}\label{modifying-distances-voting-system-to-use-1distance}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{#include }\ImportTok{<Rcpp.h>}
+\KeywordTok{using} \KeywordTok{namespace}\NormalTok{ Rcpp;}
+
+\CommentTok{// [[Rcpp::export]]}
+\DataTypeTok{int}\NormalTok{ knn_inv(NumericMatrix X, NumericVector X0, NumericVector y, }\DataTypeTok{int}\NormalTok{ K) \{}
+    \DataTypeTok{int}\NormalTok{ nrows = X.nrow();}
+    \DataTypeTok{int}\NormalTok{ ncols = X.ncol();}
+
+\NormalTok{    NumericVector distances(nrows);}
+\NormalTok{    NumericVector NN_distances(K);}
+\NormalTok{    NumericVector NN_classif(K);}
+    \DataTypeTok{double}\NormalTok{ closest_distance = }\DecValTok{99999999999999999}\NormalTok{;}
+    \DataTypeTok{double}\NormalTok{ closest_output = -}\DecValTok{1}\NormalTok{;}
+    \DataTypeTok{double}\NormalTok{ closest_neighbor = -}\DecValTok{1}\NormalTok{;}
+    \DataTypeTok{double}\NormalTok{ difference;}
+
+    \DataTypeTok{int}\NormalTok{ i;}
+    \DataTypeTok{int}\NormalTok{ j;}
+    
+    \ControlFlowTok{for}\NormalTok{ (i = }\DecValTok{0}\NormalTok{; i < nrows; i++) \{}
+        
+        \DataTypeTok{double}\NormalTok{ distance = }\DecValTok{0}\NormalTok{;}
+        \ControlFlowTok{for}\NormalTok{ (j = }\DecValTok{0}\NormalTok{; j < ncols; j++) \{}
+\NormalTok{            difference = X(i,j) - X0(j);}
+\NormalTok{            distance = distance + difference * difference;}
+\NormalTok{        \}}
+
+\NormalTok{        distance = sqrt(distance);}
+\NormalTok{        distances[i] = distance;}
+
+        \ControlFlowTok{if}\NormalTok{ (distance < closest_distance) \{}
+\NormalTok{            closest_distance = distance;}
+\NormalTok{            closest_output = y(i);}
+\NormalTok{            closest_neighbor = i;}
+\NormalTok{        \}}
+\NormalTok{    \}}
+
+\NormalTok{    K = K - }\DecValTok{1}\NormalTok{;}
+\NormalTok{    NN_distances(}\DecValTok{0}\NormalTok{) = closest_distance;}
+\NormalTok{    NN_classif(}\DecValTok{0}\NormalTok{) = closest_output;}
+\NormalTok{    distances(closest_neighbor) = }\DecValTok{99999999999999999}\NormalTok{;}
+    
+    \DataTypeTok{int}\NormalTok{ idx;}
+    \ControlFlowTok{for}\NormalTok{ (i = }\DecValTok{0}\NormalTok{; i < K; i++) \{}
+      \DataTypeTok{double}\NormalTok{ diff = }\DecValTok{0}\NormalTok{;}
+      \DataTypeTok{double}\NormalTok{ min_diff = }\DecValTok{99999999999999999}\NormalTok{;}
+      \DataTypeTok{int}\NormalTok{ index = }\DecValTok{0}\NormalTok{;}
+      \ControlFlowTok{for}\NormalTok{ (idx = }\DecValTok{0}\NormalTok{; idx < nrows; idx++) \{}
+\NormalTok{        diff = distances(idx) - NN_distances(i);}
+        \ControlFlowTok{if}\NormalTok{ (diff < min_diff) \{}
+\NormalTok{          min_diff = diff;}
+\NormalTok{          index = idx;}
+\NormalTok{        \}}
+\NormalTok{      \}}
+\NormalTok{      NN_distances(i+}\DecValTok{1}\NormalTok{) = distances(index);}
+\NormalTok{      NN_classif(i+}\DecValTok{1}\NormalTok{) = y(index);}
+\NormalTok{      distances(index) = }\DecValTok{99999999999999999}\NormalTok{;}
+\NormalTok{    \}}
+    
+\NormalTok{    NumericVector classifs(unique(y).size());}
+    \ControlFlowTok{for}\NormalTok{ (i = }\DecValTok{0}\NormalTok{; i < unique(y).size(); i++) \{}
+\NormalTok{      classifs[i] = i+}\DecValTok{1}\NormalTok{;}
+\NormalTok{    \}}
+
+\NormalTok{    NumericMatrix cnt(classifs.size(), }\DecValTok{2}\NormalTok{);}
+    \ControlFlowTok{for}\NormalTok{ (i = }\DecValTok{0}\NormalTok{; i < classifs.size(); i++) \{}
+\NormalTok{      cnt(i,}\DecValTok{0}\NormalTok{) = classifs(i);}
+\NormalTok{      cnt(i,}\DecValTok{1}\NormalTok{) = }\DecValTok{0}\NormalTok{;}
+\NormalTok{    \}}
+    \ControlFlowTok{for}\NormalTok{ (i = }\DecValTok{0}\NormalTok{; i < NN_distances.size(); i++) \{}
+\NormalTok{      cnt(NN_classif(i)-}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{) = cnt(NN_classif(i)-}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{) + }\DecValTok{1}\NormalTok{/NN_distances(i);}
+\NormalTok{    \}}
+
+    \DataTypeTok{int}\NormalTok{ group;}
+    \ControlFlowTok{for}\NormalTok{ (i = }\DecValTok{0}\NormalTok{; i < cnt(_,}\DecValTok{1}\NormalTok{).size(); i++) \{}
+      \ControlFlowTok{if}\NormalTok{ (cnt(i,}\DecValTok{1}\NormalTok{) == max(cnt(_,}\DecValTok{1}\NormalTok{))) \{}
+\NormalTok{        group = cnt(i,}\DecValTok{0}\NormalTok{);}
+\NormalTok{      \}}
+\NormalTok{    \}}
+
+  \ControlFlowTok{return}\NormalTok{ group;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{testing-the-rcpp-implementation-using-the-inverse-voting-system}{%
+\subsection{Testing the Rcpp implementation using the inverse voting
+system}\label{testing-the-rcpp-implementation-using-the-inverse-voting-system}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{knn_inv}\NormalTok{(X, X0, y, }\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
+\end{verbatim}
+
+\end{document}
