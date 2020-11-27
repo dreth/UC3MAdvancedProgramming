@@ -301,7 +301,7 @@ version}\label{benchmarking-differences-in-runtime-between-r-version-and-rcpp-ve
 \begin{verbatim}
 ## Unit: microseconds
 ##                expr     min      lq     mean  median      uq      max neval
-##  my_knn_R(X, X0, y) 679.511 698.241 738.5068 707.701 750.131 2155.951   100
+##  my_knn_R(X, X0, y) 693.121 727.856 810.7889 797.146 858.426 2046.743   100
 \end{verbatim}
 
 We can see that our mean runtime for the R version is more than 800
@@ -319,9 +319,9 @@ microseconds
 \begin{verbatim}
 ## Unit: microseconds
 ##                                         expr     min      lq     mean  median
-##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 1) 219.791 223.661 239.6494 227.691
-##        uq     max neval
-##  239.7805 581.012   100
+##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 1) 218.991 224.911 240.1537 232.346
+##       uq     max neval
+##  238.971 578.121   100
 \end{verbatim}
 
 We can see that our mean runtime for the Rcpp version is of under 250
@@ -339,7 +339,7 @@ microseconds
 \begin{verbatim}
 ## Unit: microseconds
 ##             expr   min    lq    mean median    uq     max neval
-##  knn_1(X, X0, y) 4.291 4.426 14.1048  4.501 4.566 953.611   100
+##  knn_1(X, X0, y) 4.321 4.426 13.8154  4.511 4.616 931.851   100
 \end{verbatim}
 
 We can see that our mean runtime for the Rcpp version is of under 14
@@ -486,7 +486,7 @@ k=3}\label{benchmarking-this-r-function-for-k3}}
 \begin{verbatim}
 ## Unit: milliseconds
 ##                   expr      min       lq     mean   median       uq      max
-##  knn_more(X, X0, y, 3) 1.098421 1.129521 1.236957 1.155801 1.212832 3.778271
+##  knn_more(X, X0, y, 3) 1.106401 1.132291 1.232564 1.153761 1.221272 3.522252
 ##  neval
 ##    100
 \end{verbatim}
@@ -575,7 +575,7 @@ function}\label{translating-the-teacher-code-into-c-into-an-rccp-function}}
 \StringTok{    int group = 0;}
 \StringTok{    int group_normally = 0;}
 \StringTok{    int maxes_size = maxes.size();}
-\StringTok{    if (K <= classifs.size()) \{}
+\StringTok{    if (K % 2 == 0) \{}
 \StringTok{      if (maxes_size > 1) \{}
 \StringTok{        for (i = 0; i < K; i++) \{}
 \StringTok{          if (NN_distances(i) == min(NN_distances)) \{}
@@ -620,8 +620,8 @@ k=3}\label{benchmarking-this-rcpp-function-for-k3}}
 
 \begin{verbatim}
 ## Unit: microseconds
-##                   expr    min     lq   mean median     uq      max neval
-##  knn_more(X, X0, y, 3) 13.851 14.021 25.961 14.161 14.491 1079.421   100
+##                   expr    min     lq     mean median     uq      max neval
+##  knn_more(X, X0, y, 3) 13.671 13.856 25.01592 13.956 14.066 1116.221   100
 \end{verbatim}
 
 \hypertarget{benchmarking-the-fnn-knn-function-for-k3}{%
@@ -636,10 +636,104 @@ k=3}\label{benchmarking-the-fnn-knn-function-for-k3}}
 
 \begin{verbatim}
 ## Unit: microseconds
-##                                         expr     min      lq     mean  median
-##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 3) 223.781 226.206 236.3174 228.731
+##                                         expr     min       lq     mean  median
+##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 3) 227.351 232.6365 241.6042 235.116
 ##       uq     max neval
-##  233.756 572.581   100
+##  237.671 589.662   100
+\end{verbatim}
+
+\hypertarget{modifying-distances-voting-system-to-use-1distance}{%
+\subsection{Modifying distances voting system to use
+1/distance}\label{modifying-distances-voting-system-to-use-1distance}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cppFunction}\NormalTok{(}\StringTok{'}
+\StringTok{int knn_more(NumericMatrix X, NumericVector X0, NumericVector y, int K) \{}
+\StringTok{    int nrows = X.nrow();}
+\StringTok{    int ncols = X.ncol();}
+
+\StringTok{    NumericVector distances(nrows);}
+\StringTok{    NumericVector NN_distances(K);}
+\StringTok{    NumericVector NN_classif(K);}
+\StringTok{    double closest_distance = 99999999999999999;}
+\StringTok{    double closest_output = -1;}
+\StringTok{    double closest_neighbor = -1;}
+\StringTok{    double difference;}
+
+\StringTok{    int i;}
+\StringTok{    int j;}
+\StringTok{    }
+\StringTok{    for (i = 0; i < nrows; i++) \{}
+\StringTok{        }
+\StringTok{        double distance = 0;}
+\StringTok{        for (j = 0; j < ncols; j++) \{}
+\StringTok{            difference = X(i,j) - X0(j);}
+\StringTok{            distance = distance + difference * difference;}
+\StringTok{        \}}
+
+\StringTok{        distance = sqrt(distance);}
+\StringTok{        distances[i] = distance;}
+
+\StringTok{        if (distance < closest_distance) \{}
+\StringTok{            closest_distance = distance;}
+\StringTok{            closest_output = y(i);}
+\StringTok{            closest_neighbor = i;}
+\StringTok{        \}}
+\StringTok{    \}}
+
+\StringTok{    K = K - 1;}
+\StringTok{    NN_distances(0) = closest_distance;}
+\StringTok{    NN_classif(0) = closest_output;}
+\StringTok{    distances(closest_neighbor) = 99999999999999999;}
+\StringTok{    }
+\StringTok{    int idx;}
+\StringTok{    for (i = 0; i < K; i++) \{}
+\StringTok{      double diff = 0;}
+\StringTok{      double min_diff = 99999999999999999;}
+\StringTok{      int index = 0;}
+\StringTok{      for (idx = 0; idx < nrows; idx++) \{}
+\StringTok{        diff = distances(idx) - NN_distances(i);}
+\StringTok{        if (diff < min_diff) \{}
+\StringTok{          min_diff = diff;}
+\StringTok{          index = idx;}
+\StringTok{        \}}
+\StringTok{      \}}
+\StringTok{      NN_distances(i+1) = distances(index);}
+\StringTok{      NN_classif(i+1) = y(index);}
+\StringTok{      distances(index) = 99999999999999999;}
+\StringTok{    \}}
+\StringTok{    }
+\StringTok{    NumericVector classifs(unique(y).size());}
+\StringTok{    for (i = 0; i < unique(y).size(); i++) \{}
+\StringTok{      classifs[i] = i+1;}
+\StringTok{    \}}
+
+\StringTok{    NumericMatrix cnt(classifs.size(), 2);}
+\StringTok{    for (i = 0; i < classifs.size(); i++) \{}
+\StringTok{      cnt(i,0) = classifs(i);}
+\StringTok{      cnt(i,1) = 0;}
+\StringTok{    \}}
+\StringTok{    for (i = 0; i < NN_distances.size(); i++) \{}
+\StringTok{      cnt(NN_classif(i)-1,1) = cnt(NN_classif(i)-1,1) + 1/NN_distances(i);}
+\StringTok{    \}}
+
+\StringTok{    int group;}
+\StringTok{    for (i = 0; i < cnt(_,1).size(); i++) \{}
+\StringTok{      if (cnt(i,1) == max(cnt(_,1))) \{}
+\StringTok{        group = cnt(i,0);}
+\StringTok{      \}}
+\StringTok{    \}}
+
+\StringTok{  return group;}
+\StringTok{\}'}\NormalTok{)}
+\NormalTok{test <-}\StringTok{ }\KeywordTok{knn_more}\NormalTok{(X, X0, y, }\DecValTok{3}\NormalTok{)}
+\NormalTok{test}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2
 \end{verbatim}
 
 \end{document}
