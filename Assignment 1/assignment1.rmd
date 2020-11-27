@@ -1,5 +1,5 @@
 ---
-title: 'Assignmment 1'
+title: 'Advanced Programming: Assignmment 1'
 author: "Daniel Alonso"
 date: "November 27th, 2020"
 output: 'pdf_document'

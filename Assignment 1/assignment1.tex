@@ -29,7 +29,7 @@
 }
 \usepackage{hyperref}
 \hypersetup{
-            pdftitle={Assignmment 1},
+            pdftitle={Advanced Programming: Assignmment 1},
             pdfauthor={Daniel Alonso},
             pdfborder={0 0 0},
             breaklinks=true}
@@ -104,7 +104,7 @@
 \makeatother
 
 
-\title{Assignmment 1}
+\title{Advanced Programming: Assignmment 1}
 \author{Daniel Alonso}
 \date{November 27th, 2020}
 
@@ -284,8 +284,8 @@ version}\label{benchmarking-differences-in-runtime-between-r-version-and-rcpp-ve
 
 \begin{verbatim}
 ## Unit: microseconds
-##                expr     min       lq     mean   median      uq      max neval
-##  my_knn_R(X, X0, y) 693.142 714.2965 753.3175 733.2665 751.646 2102.382   100
+##                expr     min      lq     mean   median       uq      max neval
+##  my_knn_R(X, X0, y) 686.881 710.596 748.5291 731.5915 754.2715 2096.562   100
 \end{verbatim}
 
 We can see that our mean runtime for the R version is more than 800
@@ -303,9 +303,9 @@ microseconds
 \begin{verbatim}
 ## Unit: microseconds
 ##                                         expr     min      lq     mean  median
-##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 1) 214.241 216.811 222.9321 218.641
-##       uq     max neval
-##  220.776 433.951   100
+##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 1) 217.191 219.631 225.4697 222.151
+##        uq     max neval
+##  223.5465 432.151   100
 \end{verbatim}
 
 We can see that our mean runtime for the Rcpp version is of under 250
@@ -322,8 +322,8 @@ microseconds
 
 \begin{verbatim}
 ## Unit: microseconds
-##             expr   min    lq     mean median    uq     max neval
-##  knn_1(X, X0, y) 4.321 4.471 13.99381  4.521 4.601 948.712   100
+##             expr   min    lq     mean median     uq     max neval
+##  knn_1(X, X0, y) 4.321 4.451 12.99309 4.5155 4.5815 849.681   100
 \end{verbatim}
 
 We can see that our mean runtime for the Rcpp version is of under 14
@@ -614,7 +614,7 @@ k=3}\label{benchmarking-our-r-implementation-for-k3}}
 \begin{verbatim}
 ## Unit: milliseconds
 ##                     expr      min       lq     mean   median       uq      max
-##  knn_more_R(X, X0, y, 3) 1.079771 1.111731 1.484475 1.153757 1.194877 25.43183
+##  knn_more_R(X, X0, y, 3) 1.076631 1.110727 1.424655 1.131606 1.163927 24.89428
 ##  neval
 ##    100
 \end{verbatim}
@@ -633,8 +633,8 @@ k=3}\label{benchmarking-our-rcpp-implementation-for-k3}}
 
 \begin{verbatim}
 ## Unit: microseconds
-##                   expr    min     lq    mean median     uq     max neval
-##  knn_more(X, X0, y, 3) 13.641 13.821 23.2627 13.896 14.006 946.521   100
+##                   expr    min     lq     mean median      uq     max neval
+##  knn_more(X, X0, y, 3) 13.781 13.911 24.18652 13.991 14.2415 951.562   100
 \end{verbatim}
 
 Our Rcpp implementation takes under 24 microseconds on average
@@ -651,10 +651,10 @@ k=3}\label{benchmarking-the-fnn-knn-function-for-k3}}
 
 \begin{verbatim}
 ## Unit: microseconds
-##                                         expr     min       lq    mean  median
-##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 3) 218.461 220.3765 226.068 221.551
-##        uq     max neval
-##  224.8415 457.331   100
+##                                         expr     min      lq     mean   median
+##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 3) 218.351 221.361 227.8295 222.3515
+##       uq     max neval
+##  224.671 514.411   100
 \end{verbatim}
 
 The knn function from the FNN library takes under 250 microseconds on
