@@ -111,13 +111,29 @@
 \begin{document}
 \maketitle
 
-Importing libraries
+\hypertarget{importing-libraries}{%
+\subsubsection{Importing libraries}\label{importing-libraries}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \KeywordTok{library}\NormalTok{(Rcpp)}
 \KeywordTok{library}\NormalTok{(microbenchmark)}
 \KeywordTok{library}\NormalTok{(FNN)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{importing-all-the-rcpp-function-from-the-.cpp-file-in-.assignment1knnsrcknn.cpp-using-sourcecpp}{%
+\subsubsection{Importing all the Rcpp function from the .cpp file in
+./assignment1knn/src/knn.cpp using
+sourceCpp:}\label{importing-all-the-rcpp-function-from-the-.cpp-file-in-.assignment1knnsrcknn.cpp-using-sourcecpp}}
+
+This will import the knn translation from the class example and the 2
+functions made to work (the one with the normal voting system, and the
+other one with the inverse of distance voting system) with K = 3
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sourceCpp}\NormalTok{(}\StringTok{'./assignment1knn/src/knn.cpp'}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -284,8 +300,8 @@ version}\label{benchmarking-differences-in-runtime-between-r-version-and-rcpp-ve
 
 \begin{verbatim}
 ## Unit: microseconds
-##                expr     min      lq     mean  median      uq      max neval
-##  my_knn_R(X, X0, y) 696.392 709.276 735.8177 722.897 733.036 1902.982   100
+##                expr     min       lq     mean  median      uq      max neval
+##  my_knn_R(X, X0, y) 722.171 754.4265 859.5091 876.926 904.281 2154.892   100
 \end{verbatim}
 
 We can see that our mean runtime for the R version is more than 800
@@ -302,10 +318,10 @@ microseconds
 
 \begin{verbatim}
 ## Unit: microseconds
-##                                         expr     min       lq    mean   median
-##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 1) 218.731 222.7255 229.695 224.7365
+##                                         expr     min      lq     mean  median
+##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 1) 229.501 236.851 259.9678 241.966
 ##       uq     max neval
-##  227.761 546.161   100
+##  252.911 602.391   100
 \end{verbatim}
 
 We can see that our mean runtime for the Rcpp version is of under 250
@@ -323,7 +339,7 @@ microseconds
 \begin{verbatim}
 ## Unit: microseconds
 ##             expr   min    lq    mean median    uq     max neval
-##  knn_1(X, X0, y) 4.371 4.521 13.0393  4.561 4.666 841.941   100
+##  knn_1(X, X0, y) 5.221 5.321 15.1948  5.381 5.506 980.301   100
 \end{verbatim}
 
 We can see that our mean runtime for the Rcpp version is of under 14
@@ -461,7 +477,7 @@ k=3}\label{testing-r-implementation-for-k3}}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{knn_more}\NormalTok{(X, X0, y, }\DecValTok{3}\NormalTok{)}
+\KeywordTok{knn_more_R}\NormalTok{(X, X0, y, }\DecValTok{3}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -613,8 +629,8 @@ k=3}\label{benchmarking-our-r-implementation-for-k3}}
 
 \begin{verbatim}
 ## Unit: milliseconds
-##                     expr      min       lq    mean   median       uq      max
-##  knn_more_R(X, X0, y, 3) 1.098562 1.123382 1.42881 1.141141 1.161192 24.81215
+##                     expr      min       lq     mean   median       uq      max
+##  knn_more_R(X, X0, y, 3) 1.116211 1.160662 1.287584 1.213246 1.276252 3.933092
 ##  neval
 ##    100
 \end{verbatim}
@@ -633,8 +649,8 @@ k=3}\label{benchmarking-our-rcpp-implementation-for-k3}}
 
 \begin{verbatim}
 ## Unit: microseconds
-##                   expr    min     lq     mean median     uq     max neval
-##  knn_more(X, X0, y, 3) 13.771 13.891 23.42828 13.951 14.046 957.391   100
+##                   expr    min     lq    mean median     uq      max neval
+##  knn_more(X, X0, y, 3) 15.481 15.871 26.5342 16.116 16.341 1055.862   100
 \end{verbatim}
 
 Our Rcpp implementation takes under 24 microseconds on average
@@ -651,10 +667,10 @@ k=3}\label{benchmarking-the-fnn-knn-function-for-k3}}
 
 \begin{verbatim}
 ## Unit: microseconds
-##                                         expr     min      lq     mean  median
-##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 3) 221.411 224.656 234.0578 227.656
+##                                         expr     min       lq     mean   median
+##  FNN::knn(X, matrix(X0, nrow = 1), y, k = 3) 228.221 233.1715 246.9397 235.8765
 ##       uq     max neval
-##  231.986 534.431   100
+##  244.096 557.451   100
 \end{verbatim}
 
 The knn function from the FNN library takes under 250 microseconds on

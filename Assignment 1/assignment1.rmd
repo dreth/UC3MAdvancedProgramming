@@ -5,12 +5,20 @@ date: "November 27th, 2020"
 output: 'pdf_document'
 ---
 
-Importing libraries
+### Importing libraries
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE, results='hide'}
 library(Rcpp)
 library(microbenchmark)
 library(FNN)
+```
+
+### Importing all the Rcpp function from the .cpp file in ./assignment1knn/src/knn.cpp using sourceCpp:
+
+This will import the knn translation from the class example and the 2 functions made to work (the one with the normal voting system, and the other one with the inverse of distance voting system) with K = 3
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+sourceCpp('./assignment1knn/src/knn.cpp')
 ```
 
 # Exercise 1
@@ -271,7 +279,7 @@ knn_more_R = function(X, X0, y, K){
 ## Testing R implementation for k=3
 
 ```{r, echo=TRUE, warning=FALSE, message=FALSE}
-knn_more(X, X0, y, 3)
+knn_more_R(X, X0, y, 3)
 ```
 
 \newpage
